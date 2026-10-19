@@ -26,5 +26,16 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
+  },
+  "allowScripts": {
+    "@prisma/client":true,
+    "@prisma/engines":true,
+    "prisma":true,
+    "bcrypt":true
+  },
+  "overrides": {
+    "braces": "^3.0.3",
+    "minimatch": "^9.0.5",
+    "tar": "^7.4.0"
   }
 }
