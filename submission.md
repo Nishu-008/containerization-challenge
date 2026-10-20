@@ -131,7 +131,7 @@ Database connection attempt 1 failed: PrismaClientInitializationError: Can't rea
 
 - **Fix:**  changed from node:20-alpine to node:20
  Unlike Alpine Linux variants (node:20-alpine) which use musl libc and frequently cause binary mismatch errors or missing OpenSSL dependencies with Prisma query engines, the standard Debian-based image provides native compatibility out-of-the-box. (AI)
-  
+
 ### 2. 
 - **Layer:** db and backend
 - **Log:** from docker
@@ -194,9 +194,21 @@ The table `public.User` does not exist in the current database.
 
  We don't need all whole architecture. In production, frontend only has pure static files. Whole node.js is not required just to serve static files, Since the code is already built.
 ![After](/imgs/after.png)
- Genuinely I used AI to generate a Dockerfile. But I am genuinely trying to understand what's actually happening.
+ Genuinely I used AI to generate a Dockerfile. But I am genuinely tried to understand what's actually happening.
+
+# How I reproduced the stack: (forgot to write it in the beginning)
+  - I went through README.md and understood the app architecture.
+  - I started with local dev. I don't know why. Maybe I was curious. But it was unhinged from the main challenge(sorry!)
+  - I, in co-ordination with AI, (wasted time in local dev)
+  - test ran given docker compose.
+  - struggled with compatibility issues in backend node-alpine (musl vs gblic). Finally I went with node ( yeah it increased it's size to 1.82 gb which I observed in phase 2.) 
+  - Then I got caught up in Auth0 integration(which was not required too).
+# Experience (wasn't asked, but I wanted to write this)
+I think I got carried away by small stuff yet I have learned a lot of new things. I am way unprofessional in this stuff. But I aim towards professionalism. (should've saved it for interview).
 
 # Conclusion
- I was not able to go to further phases. I have used AI extensively. I'm a newbie to this area: FSD, Containerization
- But I think I am enthusiastic enough.
+ I was not able to go to further phases. I have used AI extensively. I'm a newbie to this area: FSD, Containerization and all stuff.
+ But I think I am enthusiastic enough. Hope I'll project it well enough too.
  Apologies if I have not followed some code for write-up and all.
+
+ *Nishanth Kakkuppi (Nishu-008) : 261DS018*
