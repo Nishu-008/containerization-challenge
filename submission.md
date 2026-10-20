@@ -183,5 +183,8 @@ The table `public.User` does not exist in the current database.
  - **Fix:** updated CORS_ORIGIN in /backend/.env
   All the subsequent errors are fixed by this change. (API,Axios: Network and POST errors)
 
+# ***Phase 2***
+ The resulting image size of frontend Dockerfile is 1.86 GB(!!)
 
-  
+ It is required to reduce it to under 110 MB
+ 
