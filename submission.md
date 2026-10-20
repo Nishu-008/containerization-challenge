@@ -185,6 +185,18 @@ The table `public.User` does not exist in the current database.
 
 # ***Phase 2***
  The resulting image size of frontend Dockerfile is 1.86 GB(!!)
-
+![Before](/imgs/before.png)
  It is required to reduce it to under 110 MB
- 
+
+ node:20 pulls a full-debian based image.
+ npm install includes heavy build dependencies.
+ This means final container is carrying around every single development dependency, the entire node_modules folder, and the Node.js runtime environment itself—just to run a lightweight static file server (npx serve).
+
+ We don't need all whole architecture. In production, frontend only has pure static files. Whole node.js is not required just to serve static files, Since the code is already built.
+![After](/imgs/after.png)
+ Genuinely I used AI to generate a Dockerfile. But I am genuinely trying to understand what's actually happening.
+
+# Conclusion
+ I was not able to go to further phases. I have used AI extensively. I'm a newbie to this area: FSD, Containerization
+ But I think I am enthusiastic enough.
+ Apologies if I have not followed some code for write-up and all.
