@@ -5,21 +5,34 @@
 ### 1. npm warnings regd package installation
   - **Layer:** Backend
   - **Log:** 
+  ```
   npm warn install-scripts 4 packages had install scripts blocked because they are not covered by allowScripts:
   npm warn install-scripts   @prisma/client@6.0.1 (postinstall: node scripts/postinstall.js)
   npm warn install-scripts   @prisma/engines@6.0.1 (postinstall: node scripts/postinstall.js) 
   npm warn install-scripts   bcrypt@5.1.1 (install: node-pre-gyp install --fallback-to-build)
-  npm warn install-scripts   prisma@6.0.1 (preinstall: node scripts/preinstall-entry.js)
+  npm warn install-scripts   prisma@6.0.1 (preinstall: node scripts/preinstall-entry.js) 
+  ```
+
   - **Fix:** added packages to allowedScripts in /backend/package.json
+  ```bash
+  "allowScripts": {
+    "@prisma/client":true,
+    "@prisma/engines":true,
+    "prisma":true,
+    "bcrypt":true
+  }
+  ```
 
 ### 2. npm audit vulnerabilities
   - **Layer:** Backend
   - **Log1:** 
-  17 vulnerabilities (2 low, 2 moderate, 11 high, 2 critical)
+  ``` 
+  17 vulnerabilities (2 low, 2 moderate, 11 high, 2 critical) 
+  ```
   - **Fix1:** ran npm fix and force fix in terminal
-  'bash' npm audit fix --force
-         
+  ```  npm audit fix --force ```      
   - **Log2:** 
+  ```
    braces  *
   Severity: high
   braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
@@ -53,9 +66,17 @@
   Depends on vulnerable versions of tar
   node_modules/@mapbox/node-pre-gyp
   5 vulnerabilities (4 high, 1 critical)
+  ```
   - **Fix2:** written override commands in .../backend/package.json
-
+  ``` bash
+   "overrides": {
+    "braces": "^3.0.3",
+    "minimatch": "^9.0.5",
+    "tar": "^7.4.0"
+    }
+  ```
   - **Log3:**  
+  ```bash
   braces  *
   Severity: high
   braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
@@ -70,23 +91,33 @@
     node_modules/nodemon
 
   3 high severity vulnerabilities
+  ```
  - **Fix:** vulnerabilities ignorable since the packages do not affect production runtime security, verified by  running 
-  'bash' npm install --production
+  ```bash  npm install --production ```
 
 ### 3. npm warnings regd package installation
   - **Layer:** Frontend
   - **Log:** 
+  ```
   npm warn install-scripts 1 package had install scripts blocked because they are not covered by allowScripts:
   npm warn install-scripts   esbuild@0.24.0 (postinstall: node install.js)
-  - **Fix:** added packages to allowedScripts in /frontend/package.json 
+  ```
+  - **Fix:** added packages to allowedScripts in /frontend/package.json
+  ```
+  "allowScripts": {
+    "esbuild": true
+  }
+  ``` 
+
  
 ### 4. npm audit vulnerabilities
  - **Layer:** frontend
  - **Log1:** 
-  36 vulnerabilities (5 low, 7 moderate, 23 high, 1 critical) 
+ ``` 36 vulnerabilities (5 low, 7 moderate, 23 high, 1 critical) ```
  - **Fix1:** ran npm force fix in terminal
-  'bash' npm audit fix --force
+  ``` npm audit fix --force```
  - **Log2:**
+  ```
   npm audit report
 
   react-router  6.0.0 - 7.17.0
@@ -101,6 +132,7 @@
   node_modules/react-router-dom
 
   2 moderate severity vulnerabilities
+  ```
  - **Fix2:** ran npm force fix again in terminal, since this is not a severe breaking change and involves package upgrade
  found no vulneribilities after force fix
 
@@ -108,14 +140,19 @@
 
 
  - **Log1:** 
+  ```
   [vite] Internal server error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
   Plugin: vite:css
+  ```
  - **Fix1:** install new postcss plugin
-  'bash' npm install @tailwindcss/postcss tailwindcss
+  ``` npm install @tailwindcss/postcss tailwindcss ```
 
  - **Log2:** 
+ ```
  [vite] Internal server error: [postcss] tailwindcss: C:/Users/kakku/containerization-challenge/systems-containerization-task-2026/frontend/src/index.css:1:1: Cannot apply unknown utility class `px-6`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
- - **Fix2:** changes in ./frontend/src/index.css
+ ```
+ - **Fix2:** changes in ./frontend/src/index.css (AI, all i know is tailwindcss ver changed while force fix)
+
 ### 6. Log: Uncaught Error: supabaseUrl isrequired  
  -  Fix: I didn't know about supabase. So I set up supabase db. *PS: Later I realized it wasn't even required for what was expected LOL!*
 
@@ -126,15 +163,18 @@
 
 ### 1. 
 - **Layer:** db and backend
-- **Log1:** 
+- **Log1:**
+``` 
 Database connection attempt 1 failed: PrismaClientInitializationError: Can't reach database server at `db.oepbjsfggtmcbhqxwxwh.supabase.co:5432` Details: Error loading shared library libssl.so.1.1: No such file or directory (needed by /app/node_modules/.prisma/client/libquery_engine-linux-musl.so.node)
+```
+- **Fix:**  changed from node:20-alpine to node:20 in Dockerfile line 1
 
-- **Fix:**  changed from node:20-alpine to node:20
  Unlike Alpine Linux variants (node:20-alpine) which use musl libc and frequently cause binary mismatch errors or missing OpenSSL dependencies with Prisma query engines, the standard Debian-based image provides native compatibility out-of-the-box. (AI)
 
 ### 2. 
 - **Layer:** db and backend
 - **Log:** from docker
+```
 database
 
 2026-10-20 14:22:28.610 UTC [62] ERROR:  relation "public.Event" does not exist at character 401
@@ -175,7 +215,8 @@ The table `public.User` does not exist in the current database.
   meta: { modelName: 'User', table: 'public.User' }
 
 }
- **Fix:** added migrate deploy in ./backend/DockerFile line 13 
+```
+ **Fix:** added prisma migrate deploy in ./backend/DockerFile line 13 
 
 ### 3. env var update
  ![Screenshot](/systems-containerization-task-2026/imgs/errimg1.png)
