@@ -178,7 +178,7 @@ The table `public.User` does not exist in the current database.
  **Fix:** added migrate deploy in ./backend/DockerFile line 13 
 
 ### 3. env var update
- ![Screenshot](/systems-containerization-task-2026/imgs/errimg1.png)
+ ![Screenshot](/imgs/errimg1.png)
  - The first error (Access to XHTMLRequest...) was due to old CORS var (http://localhost:3000). This time the rev proxy listens at http://localhost:80 or simply http://localhost
  - **Fix:** updated CORS_ORIGIN in /backend/.env
   All the subsequent errors are fixed by this change. (API,Axios: Network and POST errors)
